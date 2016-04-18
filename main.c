@@ -6,6 +6,8 @@
 #include <time.h>
 #include "structs.h"
 #include "array_maker.h"
+#include "insertion.h"
+#include "mergeSort.h"
 
 typedef long long Parses(const char *str, char **endptr, int base);
 typedef unsigned long long Parseu(const char *str, char **endptr, int base);
@@ -19,7 +21,7 @@ unsigned long long parse_unsigned(char *arg, char *str, Parseu *parseuint);
 int main (int argc, char *argv[])
 {
 
-        Data_info *specs = malloc(sizeof(*specs));
+        Data_info *specs = (Data_info *)malloc(sizeof(*specs));
         specs->sample_size = 10000;
         specs->max = 100000;
         specs->min = -10;
@@ -173,32 +175,32 @@ int main (int argc, char *argv[])
                         i++;
                         char *sort_name = argv[i];
 
-                        if (strcmp(sort_name, "quick") ||
-                            strcmp(sort_name, "quicksort")) {
+                        if (strcmp(sort_name, "quick") == 0 ||
+                            strcmp(sort_name, "quicksort") == 0) {
                                 algorithm = QUICK;
 
-                        } else if (strcmp(sort_name, "shell") ||
-                            strcmp(sort_name, "shell-sort")) {
+                        } else if (strcmp(sort_name, "shell") == 0 ||
+                            strcmp(sort_name, "shell-sort") == 0) {
                                 algorithm = SHELL;
 
-                        } else if (strcmp(sort_name, "merge") ||
-                            strcmp(sort_name, "merge-sort")) {
+                        } else if (strcmp(sort_name, "merge") == 0||
+                            strcmp(sort_name, "merge-sort") == 0) {
                                 algorithm = MERGE;
 
-                        } else if (strcmp(sort_name, "insertion") ||
-                            strcmp(sort_name, "insertion-sort")) {
+                        } else if (strcmp(sort_name, "insertion") == 0 ||
+                            strcmp(sort_name, "insertion-sort") == 0) {
                                 algorithm = INSERTION;
 
-                        } else if (strcmp(sort_name, "heap") ||
-                            strcmp(sort_name, "heap-sort")) {
+                        } else if (strcmp(sort_name, "heap") == 0 ||
+                            strcmp(sort_name, "heap-sort") == 0) {
                                 algorithm = HEAP;
 
-                        } else if (strcmp(sort_name, "radix") ||
-                            strcmp(sort_name, "radix-sort")) {
+                        } else if (strcmp(sort_name, "radix") == 0 ||
+                            strcmp(sort_name, "radix-sort") == 0) {
                                 algorithm = RADIX;
 
-                        } else if (strcmp(sort_name, "bitonic") ||
-                            strcmp(sort_name, "bitonic-sort")) {
+                        } else if (strcmp(sort_name, "bitonic") == 0 ||
+                            strcmp(sort_name, "bitonic-sort") == 0) {
                                 algorithm = BITONIC;
 
                         } else {
@@ -224,16 +226,16 @@ int main (int argc, char *argv[])
                         i++;
                         char *par = argv[i];
 
-                        if (strcmp(par, "p") ||
-                            strcmp(par, "parallel")) {
+                        if (strcmp(par, "p") == 0 ||
+                            strcmp(par, "parallel") == 0) {
                                 parallelism = PARALLEL;
 
-                        } else if (strcmp(par, "s") ||
-                            strcmp(par, "serial")) {
+                        } else if (strcmp(par, "s") == 0 ||
+                            strcmp(par, "serial") == 0) {
                                 parallelism = SERIAL;
 
-                        } else if (strcmp(par, "b") ||
-                            strcmp(par, "both")) {
+                        } else if (strcmp(par, "b") == 0 ||
+                            strcmp(par, "both") == 0) {
                                 parallelism = BOTH;
 
                         } else {
@@ -258,24 +260,25 @@ int main (int argc, char *argv[])
 
                         i++;
                         char *order = argv[i];
+ 
+                        if (strcmp(order, "s") == 0 ||
+                            strcmp(order, "sorted") == 0) {
+              
+                                specs->order = SORTED;
 
-                        if (strcmp(order, "s") ||
-                            strcmp(order, "sorted")) {
-                                specs->order = PARALLEL;
+                        } else if (strcmp(order, "r") == 0 ||
+                            strcmp(order, "reversed") == 0) {
+                                specs->order = REVERSED;
 
-                        } else if (strcmp(order, "r") ||
-                            strcmp(order, "reversed")) {
-                                specs->order = SERIAL;
+                        } else if (strcmp(order, "n") == 0 ||
+                            strcmp(order, "nearly-sorted") == 0) {
+                                specs->order = NEARLYSORTED;
 
-                        } else if (strcmp(order, "n") ||
-                            strcmp(order, "nearly-sorted")) {
-                                specs->order = BOTH;
-
-                        } else if (strcmp(order, "u") ||
-                            strcmp(order, "unsorted") ||
-                            strcmp(order, "random") ||
-                            strcmp(order, "shuffled")) {
-                                specs->order = BOTH;
+                        } else if (strcmp(order, "u") == 0 ||
+                            strcmp(order, "unsorted") == 0 ||
+                            strcmp(order, "random") == 0 ||
+                            strcmp(order, "shuffled") == 0) {
+                                specs->order = UNSORTED;
 
                         }else {
                                 fprintf(stderr, "No valid array sortedness "
@@ -354,7 +357,25 @@ int main (int argc, char *argv[])
         srand(time(NULL));
         Data *data = generate_data(specs);
         print_array(data, specs);
-
+        if (algorithm == ALL) {
+                fprintf(stderr, "With all algorithms, to be done\n");
+        } else if (algorithm == BITONIC) {
+                fprintf(stderr, "With algorithm: bitonic sort to be done\n");
+        } else if (algorithm == RADIX) {
+                fprintf(stderr, "With algorithm: radix sort to be done\n");
+        } else if (algorithm == QUICK) {
+                fprintf(stderr, "With algorithm: quicksort to be done\n");
+        } else if (algorithm == MERGE) {
+                fprintf(stderr, "Invoking algorithm: merge sort\n");
+                mergeSort(specs, data);
+        } else if (algorithm == SHELL) {
+                fprintf(stderr, "With algorithm: shellsort to be done\n");
+        } else if (algorithm == HEAP) {
+                fprintf(stderr, "With algorithm: heap sort to be done\n");
+        } else if (algorithm == INSERTION) {
+                fprintf(stderr, "Invoking algorithm: insertion sort\n");
+                insertion(specs, data);
+        } 
 
 
 }

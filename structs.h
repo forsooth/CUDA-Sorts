@@ -25,7 +25,7 @@ typedef struct Data_info {
 typedef struct Data {
         int array_used;
         int *intarray;
-        int *floatarray;
+        float *floatarray;
 } Data;
 
 #endif

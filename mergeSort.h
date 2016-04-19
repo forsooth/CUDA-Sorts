@@ -4,16 +4,16 @@
 #include "checkSortedness.h"
 void mergeSort_int(int *arr, int leftIndex, int rightIndex);
 void mergeSort_float(float *arr, int leftIndex, int rightIndex);
-void mergeSort(Data_info *info, Data *data) {
+void mergeSort(Data *data) {
     
-    if (info->contents == INT) {
+    if (data->array_used == INT) {
         
-        mergeSort_int(data->intarray, 0, info->sample_size - 1);
-    } else if (info->contents == FLOAT) {
+        mergeSort_int(data->intarray, 0, data->length - 1);
+    } else if (data->array_used == FLOAT) {
     
-        mergeSort_float(data->floatarray, 0, info->sample_size - 1);
+        mergeSort_float(data->floatarray, 0, data->length - 1);
     }
-    checkSortedness(info, data);
+    checkSortedness(data);
 };
 
 void mergeSort_int(int *arr, int leftIndex, int rightIndex) {

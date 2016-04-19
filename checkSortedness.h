@@ -4,11 +4,11 @@
 #include "structs.h"
 #include <stdio.h>
 
-void checkSortedness(Data_info *info, Data *data) {
+void checkSortedness(Data *data) {
 
-    if (info->contents == INT) {
+    if (data->array_used == INT) {
     
-        for (int i = 1; i < info->sample_size; i++) {
+        for (int i = 1; i < data->length; i++) {
             if (data->intarray[i] < data->intarray[i - 1]) {
                 fprintf(stderr, "Not sorted at %d is %d, at %d is %d.\n", 
                         i - 1, data->intarray[i - 1], i, data->intarray[i]);
@@ -17,9 +17,9 @@ void checkSortedness(Data_info *info, Data *data) {
                 
         }
     
-    } else if (info->contents == FLOAT) {
+    } else if (data->array_used == FLOAT) {
     
-        for (int i = 1; i < info->sample_size; i++) {
+        for (int i = 1; i < data->length; i++) {
             if (data->floatarray[i] < data->floatarray[i - 1]) {
                 fprintf(stderr, "Not sorted at %d is %lf, at %d is %lf.\n", 
                         i - 1, data->floatarray[i - 1], i, data->floatarray[i]);

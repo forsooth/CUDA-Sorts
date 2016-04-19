@@ -12,10 +12,11 @@ Data *generate_data (Data_info *specs)
         Data *data = (Data *)malloc(sizeof(*data));
         long long max = specs->max;
         long long min = specs->min;
+        data->length = specs->sample_size;
 
         if (specs->contents == INT) {
                 data->intarray = (int *)malloc(specs->sample_size * sizeof(int));
-
+                data->array_used = INT;
                 if (specs->order == UNSORTED) {
                         if (specs->dist == UNIFORM) {
                                 for (unsigned long long i = 0; i < specs->sample_size; i++) {
@@ -49,11 +50,13 @@ Data *generate_data (Data_info *specs)
 
         } else if (specs->contents == FLOAT) {
             data->floatarray = (float *)malloc(specs->sample_size * sizeof(float));
+            data->array_used = FLOAT;
             if (specs->dist == UNIFORM) {
                 for (unsigned long long i = 0; i < specs->sample_size; i++) {
                     data->floatarray[i] = next_double();
-                }
+                } 
             }  
+              
         }
 
         return data;

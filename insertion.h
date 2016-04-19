@@ -4,11 +4,11 @@
 #include "structs.h"
 #include "checkSortedness.h"
 
-void insertion(Data_info *info, Data *data) {
+void insertion(Data *data) {
     
-    if (info->contents == INT) {
-    
-        for (int i = 1; i < info->sample_size; i++) {
+    if (data->array_used == INT) {
+   
+        for (int i = 1; i < data->length; i++) {
             for (int j = i; j > 0; j--) {
                 if (data->intarray[j] < data->intarray[j - 1]) {
                     int tmp = data->intarray[j- 1];
@@ -20,9 +20,9 @@ void insertion(Data_info *info, Data *data) {
             }
         }
     
-    } else if (info->contents == FLOAT) {
+    } else if (data->array_used == FLOAT) {
     
-        for (int i = 1; i < info->sample_size; i++) {
+        for (int i = 1; i < data->length; i++) {
             for (int j = i; j > 0; j--) {
                 if (data->floatarray[j] < data->floatarray[j - 1]) {
                     float tmp = data->floatarray[j- 1];
@@ -35,7 +35,7 @@ void insertion(Data_info *info, Data *data) {
         }    
       
     }
-    checkSortedness(info, data);
+    checkSortedness(data);
 };
 
 #endif

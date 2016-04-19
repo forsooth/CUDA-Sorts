@@ -367,14 +367,14 @@ int main (int argc, char *argv[])
                 fprintf(stderr, "With algorithm: quicksort to be done\n");
         } else if (algorithm == MERGE) {
                 fprintf(stderr, "Invoking algorithm: merge sort\n");
-                mergeSort(specs, data);
+                mergeSort(data);
         } else if (algorithm == SHELL) {
                 fprintf(stderr, "With algorithm: shellsort to be done\n");
         } else if (algorithm == HEAP) {
                 fprintf(stderr, "With algorithm: heap sort to be done\n");
         } else if (algorithm == INSERTION) {
                 fprintf(stderr, "Invoking algorithm: insertion sort\n");
-                insertion(specs, data);
+                insertion(data);
         } 
 
 

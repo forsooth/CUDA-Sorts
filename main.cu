@@ -157,6 +157,14 @@ int main (int argc, char *argv[])
                         long long min = parse_signed(arg, min_str, &strtoll);
                         long long max = parse_signed(arg, max_str, &strtoll);
 
+                        if (min >= max) {
+                                fprintf(stderr, "ERROR: command line argument "
+                                                "%s followed by two numbers, "
+                                                "but the second was not the "
+                                                "larger of the two.\n", arg);
+                                exit(EXIT_FAILURE);
+                        }
+
                         specs->min = min;
                         specs->max = max;
 

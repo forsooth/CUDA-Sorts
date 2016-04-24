@@ -20,7 +20,7 @@ void quicksort(Data *data)
 {
         if (data->array_used == INT) {
                 quicksort_int(data->intarray, 0, data->length - 1);
-        } else if (data->array_used == FLOAT) {
+        } elseif (data->array_used == FLOAT) {
                 quicksort_float(data->floatarray, 0, data->length - 1);
         } 
 }

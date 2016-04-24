@@ -8,8 +8,7 @@
 #include "array_maker.h"
 #include "insertion.h"
 #include "mergeSort.h"
-#include "parallelMergeSort.h"
- 
+#include "quicksort.h"
 
 typedef long long Parses(const char *str, char **endptr, int base);
 typedef unsigned long long Parseu(const char *str, char **endptr, int base);
@@ -358,38 +357,28 @@ int main (int argc, char *argv[])
 
         srand(time(NULL));
         Data *data = generate_data(specs);
-        //print_array(data, specs);
-        switch (algorithm) {
-            case ALL:
+        print_array(data, specs);
+        if (algorithm == ALL) {
                 fprintf(stderr, "With all algorithms, to be done\n");
-                break;
-            case BITONIC:
+        } else if (algorithm == BITONIC) {
                 fprintf(stderr, "With algorithm: bitonic sort to be done\n");
-                break;
-            case RADIX:
+        } else if (algorithm == RADIX) {
                 fprintf(stderr, "With algorithm: radix sort to be done\n");
-                break;
-            case QUICK:
-                fprintf(stderr, "With algorithm: quicksort to be done \n");
-                break;
-               
-            case MERGE:
+        } else if (algorithm == QUICK) {
+                fprintf(stderr, "Invoking algorithm: quicksort \n");
+                quicksort(data);
+        } else if (algorithm == MERGE) {
                 fprintf(stderr, "Invoking algorithm: merge sort\n");
-                if (parallelism == PARALLEL) 
-                    parallelMergeSort(data);
-                else  mergeSort(data);
-                break;
-            case SHELL:
+                mergeSort(data);
+        } else if (algorithm == SHELL) {
                 fprintf(stderr, "With algorithm: shellsort to be done\n");
-                break;
-            case HEAP:
+        } else if (algorithm == HEAP) {
                 fprintf(stderr, "With algorithm: heap sort to be done\n");
-                break;
-            case INSERTION:
+        } else if (algorithm == INSERTION) {
                 fprintf(stderr, "Invoking algorithm: insertion sort\n");
                 insertion(data);
         } 
-        
+
 
 }
 

@@ -10,7 +10,7 @@ void checkSortedness(Data *data) {
     
         for (int i = 1; i < data->length; i++) {
             if (data->intarray[i] < data->intarray[i - 1]) {
-                fprintf(stderr, "Not sorted at %d is %d, at %d is %d.\n", 
+                printf("Not sorted at %lld is %lld, at %lld is %lld.\n", 
                         i - 1, data->intarray[i - 1], i, data->intarray[i]);
                 return;
             }
@@ -21,7 +21,7 @@ void checkSortedness(Data *data) {
     
         for (int i = 1; i < data->length; i++) {
             if (data->floatarray[i] < data->floatarray[i - 1]) {
-                fprintf(stderr, "Not sorted at %d is %lf, at %d is %lf.\n", 
+                printf("Not sorted at %lld is %lf, at %lld is %lf.\n", 
                         i - 1, data->floatarray[i - 1], i, data->floatarray[i]);
                 return;
              }
@@ -30,7 +30,7 @@ void checkSortedness(Data *data) {
       
     }
 
-    fprintf(stderr, "Sorted.\n");
+    printf("Sorted.\n");
 
 
 };

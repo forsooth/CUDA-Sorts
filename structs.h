@@ -29,4 +29,10 @@ typedef struct Data {
         float *floatarray;
 } Data;
 
+typedef struct Grid {
+    int blockx;
+    int blocky;
+    int blockz;
+} Grid;
+
 #endif

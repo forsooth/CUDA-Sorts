@@ -22,7 +22,7 @@ void check_sorted(Data *data) {
         }
     }
 
-    fprintf(stderr, "Sorted.\n");
+    printf("Sorted.\n");
 
 
 };

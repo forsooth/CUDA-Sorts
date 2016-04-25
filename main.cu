@@ -26,7 +26,7 @@ int main (int argc, char *argv[])
 
         Data_info *specs = (Data_info *)malloc(sizeof(*specs));
         specs->sample_size = 10000;
-        specs->max = 100000;
+        specs->max = 100000000;
         specs->min = -10;
 
         Sort algorithm;
@@ -157,14 +157,6 @@ int main (int argc, char *argv[])
 
                         long long min = parse_signed(arg, min_str, &strtoll);
                         long long max = parse_signed(arg, max_str, &strtoll);
-
-                        if (min >= max) {
-                                fprintf(stderr, "ERROR: command line argument "
-                                                "%s followed by two numbers, "
-                                                "but the second was not the "
-                                                "larger of the two.\n", arg);
-                                exit(EXIT_FAILURE);
-                        }
 
                         specs->min = min;
                         specs->max = max;

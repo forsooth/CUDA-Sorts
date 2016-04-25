@@ -1,3 +1,6 @@
+#ifndef ARRAYMAKER
+#define ARRAYMAKER
+
 #include "structs.h"
 
 Data *generate_data (Data_info *specs);
@@ -13,3 +16,5 @@ int next_quadratic (long long min, long long max);
 int next_bucket (long long min, long long max);
 
 void print_array (Data *data, Data_info *specs);
+
+#endif

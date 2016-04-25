@@ -54,9 +54,9 @@ Data *generate_data (Data_info *specs)
             if (specs->dist == UNIFORM) {
                 for (unsigned long long i = 0; i < specs->sample_size; i++) {
                     data->floatarray[i] = next_double();
-                } 
-            }  
-              
+                }
+            }
+
         }
 
         return data;
@@ -79,7 +79,7 @@ int next_gaussian (long long min, long long max)
         double theta = 2 * PI * next_double();
         double x = r * cos(theta);
         double y = r * sin(theta);
-        
+
         long long final;
         if (next_double() > 0.5) {
                 /* value * SD + mean */
@@ -87,8 +87,6 @@ int next_gaussian (long long min, long long max)
         } else {
                 final = (y * ((max - min) / 5)) + ((max + min) / 2);
         }
-
-        fprintf(stderr, "%lld\n", final);
 
         if (final > max || final < min) return next_gaussian (min, max);
         return final;
@@ -98,7 +96,7 @@ int next_gaussian (long long min, long long max)
 int next_quadratic (long long min, long long max)
 {
         int val = (rand() % (max - min) + min) - max;
-        return min * val * val; 
+        return min * val * val;
 }
 
 int next_bucket (long long min, long long max)
@@ -109,7 +107,7 @@ int next_bucket (long long min, long long max)
 }
 
 void print_array (Data *data, Data_info *specs) {
-        fprintf(stderr, "AAAL\n");
+        fprintf(stderr, "Printing array contents:\n");
         if (specs->contents == INT) {
                 for (unsigned long long i = 0; i < specs->sample_size; i++) {
                         fprintf(stdout, "%d\n", data->intarray[i]);

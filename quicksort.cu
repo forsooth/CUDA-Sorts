@@ -4,7 +4,6 @@
  *
  */
 
-#include <stdio.h>
 #include "structs.h"
 
 void quicksort(Data *data, Data_info *data_info);
@@ -16,13 +15,13 @@ int partition_float(float* a, int p, int r);
 /*
  *      To sort all array, call A, 1, length[A]
  */
-void quicksort(Data *data) 
+void quicksort(Data *data)
 {
         if (data->array_used == INT) {
                 quicksort_int(data->intarray, 0, data->length - 1);
         } else if (data->array_used == FLOAT) {
                 quicksort_float(data->floatarray, 0, data->length - 1);
-        } 
+        }
 }
 
 

@@ -7,9 +7,10 @@
 #include "structs.h"
 #include "array_maker.h"
 #include "insertion.h"
-#include "mergeSort.h"
-#include "parallelMergeSort.h"
- 
+#include "merge_sort.h"
+#include "parallel_merge_sort.h"
+#include "check_sorted.h"
+
 
 typedef long long Parses(const char *str, char **endptr, int base);
 typedef unsigned long long Parseu(const char *str, char **endptr, int base);
@@ -18,7 +19,7 @@ long long parse_signed(char *arg, char *str, Parses *parseint);
 unsigned long long parse_unsigned(char *arg, char *str, Parseu *parseuint);
 
 
-/* Parse command line arguments, generate a random array to the client's 
+/* Parse command line arguments, generate a random array to the client's
  * specifications, and pass the array to the specified sorting algorithms */
 int main (int argc, char *argv[])
 {
@@ -40,11 +41,11 @@ int main (int argc, char *argv[])
                 char *arg = argv[i];
 
                 /* ========================================
-                       -n, -num, and -number arguments 
+                       -n, -num, and -number arguments
                    ======================================== */
                 if (strcmp(arg, "-n") == 0 || strcmp(arg, "-num") == 0
                                       || strcmp(arg, "-number") == 0) {
-                      
+
                         if (i + 1 == argc) {
                                 fprintf(stderr, "ERROR: command line argument "
                                                 "%s was not followed by "
@@ -55,18 +56,18 @@ int main (int argc, char *argv[])
                         i++;
                         char *num_str = argv[i];
 
-                        unsigned long long num = 
+                        unsigned long long num =
                                        parse_unsigned(arg, num_str, &strtoull);
 
                         specs->sample_size = num;
                 }
 
                 /* ========================================
-                    -d, -dist, and -distribution arguments 
+                    -d, -dist, and -distribution arguments
                    ======================================== */
                 else if (strcmp(arg, "-d") == 0 || strcmp(arg, "-dist") == 0
                                       || strcmp(arg, "-distribution") == 0) {
-                      
+
                         if (i + 1 == argc) {
                                 fprintf(stderr, "ERROR: command line argument "
                                                 "%s was not followed by "
@@ -77,23 +78,23 @@ int main (int argc, char *argv[])
                         i++;
                         char *dist_str = argv[i];
 
-                        if (strcmp(dist_str, "gaussian") == 0 || 
+                        if (strcmp(dist_str, "gaussian") == 0 ||
                             strcmp(dist_str, "g") == 0) {
                                 specs->dist = GAUSSIAN;
 
-                        } else if (strcmp(dist_str, "uniform") == 0 || 
+                        } else if (strcmp(dist_str, "uniform") == 0 ||
                                    strcmp(dist_str, "u") == 0) {
                                 specs->dist = UNIFORM;
 
-                        } else if (strcmp(dist_str, "constant") == 0 || 
+                        } else if (strcmp(dist_str, "constant") == 0 ||
                                    strcmp(dist_str, "c") == 0) {
                                 specs->dist = CONSTANT;
 
-                        } else if (strcmp(dist_str, "quadratic") == 0 || 
+                        } else if (strcmp(dist_str, "quadratic") == 0 ||
                                    strcmp(dist_str, "q") == 0) {
                                 specs->dist = QUADRATIC;
 
-                        } else if (strcmp(dist_str, "buckets") == 0 || 
+                        } else if (strcmp(dist_str, "buckets") == 0 ||
                                    strcmp(dist_str, "b") == 0) {
                                 specs->dist = BUCKETS;
 
@@ -103,13 +104,13 @@ int main (int argc, char *argv[])
                                                 "recognized.\n", dist_str);
                                 exit(EXIT_FAILURE);
                         }
-                      
+
                 /* ========================================
-                           -t and -type arguments 
-                   ======================================== */  
-                } else if (strcmp(arg, "-t") == 0 || 
+                           -t and -type arguments
+                   ======================================== */
+                } else if (strcmp(arg, "-t") == 0 ||
                            strcmp(arg, "-type") == 0) {
-                      
+
                         if (i + 1 == argc) {
                                 fprintf(stderr, "ERROR: command line argument "
                                                 "%s was not followed by "
@@ -120,13 +121,13 @@ int main (int argc, char *argv[])
                         i++;
                         char *type_str = argv[i];
 
-                        if (strcmp(type_str, "int") == 0 || 
+                        if (strcmp(type_str, "int") == 0 ||
                             strcmp(type_str, "i") == 0) {
                                 specs->contents = INT;
 
-                        } else if (strcmp(type_str, "fp") == 0 || 
-                                   strcmp(type_str, "f") == 0 || 
-                                   strcmp(type_str, "float") == 0 || 
+                        } else if (strcmp(type_str, "fp") == 0 ||
+                                   strcmp(type_str, "f") == 0 ||
+                                   strcmp(type_str, "float") == 0 ||
                                    strcmp(type_str, "floating-point") == 0) {
                                 specs->contents = FLOAT;
                         } else {
@@ -137,11 +138,11 @@ int main (int argc, char *argv[])
                         }
 
                 /* ========================================
-                          -r and -range arguments 
+                          -r and -range arguments
                    ======================================== */
                 } else if (strcmp(arg, "-r") == 0 ||
                            strcmp(arg, "-range") == 0) {
-                      
+
                         if (i + 2 == argc) {
                                 fprintf(stderr, "ERROR: command line argument "
                                                 "%s was not followed by "
@@ -169,12 +170,12 @@ int main (int argc, char *argv[])
                         specs->max = max;
 
                 /* ========================================
-                           -s and -sort arguments 
+                           -s and -sort arguments
                    ======================================== */
 
                 } else if (strcmp(arg, "-s") == 0 ||
                            strcmp(arg, "-sort") == 0) {
-                      
+
                         if (i + 1 == argc) {
                                 fprintf(stderr, "ERROR: command line argument "
                                                 "%s was not followed by "
@@ -220,12 +221,12 @@ int main (int argc, char *argv[])
                         }
 
                 /* ========================================
-                           -p and -parallel arguments 
+                           -p and -parallel arguments
                    ======================================== */
 
                 } else if (strcmp(arg, "-p") == 0 ||
                            strcmp(arg, "-parallel") == 0) {
-                      
+
                         if (i + 1 == argc) {
                                 fprintf(stderr, "ERROR: command line argument "
                                                 "%s was not followed by "
@@ -255,12 +256,12 @@ int main (int argc, char *argv[])
                         }
 
                  /* ========================================
-                           -o and -order arguments 
+                           -o and -order arguments
                    ======================================== */
 
                 } else if (strcmp(arg, "-o") == 0 ||
                            strcmp(arg, "-order") == 0) {
-                      
+
                         if (i + 1 == argc) {
                                 fprintf(stderr, "ERROR: command line argument "
                                                 "%s was not followed by "
@@ -270,10 +271,10 @@ int main (int argc, char *argv[])
 
                         i++;
                         char *order = argv[i];
- 
+
                         if (strcmp(order, "s") == 0 ||
                             strcmp(order, "sorted") == 0) {
-              
+
                                 specs->order = SORTED;
 
                         } else if (strcmp(order, "r") == 0 ||
@@ -297,7 +298,7 @@ int main (int argc, char *argv[])
                         }
                 }
 
-               
+
         }
 
         fprintf(stderr, "Parsed command-line arguments.\n\n");
@@ -335,7 +336,7 @@ int main (int argc, char *argv[])
                 fprintf(stderr, "Sortedness: nearly sorted\n\n");
         } else if (specs->order == UNSORTED) {
                 fprintf(stderr, "Sortedness: random\n\n");
-        } 
+        }
 
         if (algorithm == ALL) {
                 fprintf(stderr, "With all algorithms\n");
@@ -353,7 +354,7 @@ int main (int argc, char *argv[])
                 fprintf(stderr, "With algorithm: heap sort\n");
         } else if (algorithm == INSERTION) {
                 fprintf(stderr, "With algorithm: insertion sort\n");
-        } 
+        }
 
         if (parallelism == BOTH) {
                 fprintf(stderr, "Running both in serial "
@@ -366,7 +367,9 @@ int main (int argc, char *argv[])
 
         srand(time(NULL));
         Data *data = generate_data(specs);
+        fprintf(stderr, "Generated data array.\n");
         //print_array(data, specs);
+
         switch (algorithm) {
             case ALL:
                 fprintf(stderr, "With all algorithms, to be done\n");
@@ -380,12 +383,14 @@ int main (int argc, char *argv[])
             case QUICK:
                 fprintf(stderr, "With algorithm: quicksort to be done \n");
                 break;
-               
+
             case MERGE:
                 fprintf(stderr, "Invoking algorithm: merge sort\n");
-                if (parallelism == PARALLEL) 
-                    parallelMergeSort(data);
-                else  mergeSort(data);
+                if (parallelism == PARALLEL) {
+                        parallelMergeSort(data);
+                } else {
+                        mergeSort(data);
+                }
                 break;
             case SHELL:
                 fprintf(stderr, "With algorithm: shellsort to be done\n");
@@ -396,13 +401,16 @@ int main (int argc, char *argv[])
             case INSERTION:
                 fprintf(stderr, "Invoking algorithm: insertion sort\n");
                 insertion(data);
-        } 
-        
+        }
+
+        fprintf(stderr, "\nChecking sortedness...\n");
+        check_sorted(data);
+
 
 }
 
 long long parse_signed(char *arg, char *str, Parses *parseint) {
-        
+
         int digits = strlen(str);
 
         if (digits <= 0) {
@@ -424,7 +432,7 @@ long long parse_signed(char *arg, char *str, Parses *parseint) {
                 fprintf(stderr, "ERROR: the value following "
                                 "argument %s was not able to "
                                 "be interpreted as an integer."
-                                " Value was: %s\n", arg, 
+                                " Value was: %s\n", arg,
                                 str);
                 exit(EXIT_FAILURE);
         }
@@ -433,7 +441,7 @@ long long parse_signed(char *arg, char *str, Parses *parseint) {
 }
 
 unsigned long long parse_unsigned(char *arg, char *str, Parseu *parseuint) {
-        
+
         int digits = strlen(str);
 
         if (digits <= 0) {
@@ -448,7 +456,7 @@ unsigned long long parse_unsigned(char *arg, char *str, Parseu *parseuint) {
                 exit(EXIT_FAILURE);
         }
 
-        unsigned long long num = 
+        unsigned long long num =
                         parseuint(str, NULL, 0);
 
         if (errno == ERANGE || errno == EINVAL) {
@@ -461,7 +469,7 @@ unsigned long long parse_unsigned(char *arg, char *str, Parseu *parseuint) {
                 fprintf(stderr, "ERROR: the value following "
                                 "argument %s was not able to "
                                 "be interpreted as an integer."
-                                " Value was: %s\n", arg, 
+                                " Value was: %s\n", arg,
                                 str);
                 exit(EXIT_FAILURE);
         }

@@ -13,7 +13,6 @@
 #include "parallel_merge_sort.h"
 #include "check_sorted.h"
 
-
 typedef long long Parses(const char *str, char **endptr, int base);
 typedef unsigned long long Parseu(const char *str, char **endptr, int base);
 
@@ -364,9 +363,12 @@ int main (int argc, char *argv[])
 
         srand(time(NULL));
         Data *data = generate_data(specs);
+
         fprintf(stderr, "Generated data array.\n");
 
+        #ifdef PRINT
         prettyprint_array(data);
+        #endif
 
         switch (algorithm) {
             case ALL:
@@ -411,11 +413,23 @@ int main (int argc, char *argv[])
                 insertion(data);
         }
 
+        #ifdef PRINT
         prettyprint_array(data);
+        #endif
 
         fprintf(stderr, "\nChecking sortedness...\n");
         check_sorted(data);
 
+        if(data->intarray != NULL) {
+                free(data->intarray);
+        }
+
+        if(data->floatarray != NULL) {
+                free(data->floatarray);
+        }
+
+        free(data);
+        free(specs);
 
 }
 

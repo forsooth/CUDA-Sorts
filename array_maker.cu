@@ -10,6 +10,8 @@ const int NUM_BUCKETS = 10;
 Data *generate_data (Data_info *specs)
 {
         Data *data = (Data *)malloc(sizeof(*data));
+        data->intarray = NULL;
+        data->floatarray = NULL;
         long long max = specs->max;
         long long min = specs->min;
         data->length = specs->sample_size;

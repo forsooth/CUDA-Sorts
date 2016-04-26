@@ -68,17 +68,29 @@ __global__ void merge_float(float *input, float *output, int length, int size) {
 
 }
 
+
+//This function is for calculating how many threads and blocks
+//you would like to create.
+//length is the length of the whole array;
+//size is the amount of elements you want each thread to process
+//grid is to be calculated, it has 3 dimension, blockx, blocky
+//and blockz.
+//threads is how many threads for each block.
 void cal_grid(Grid *grid, int *threads, int length, int size) {
+    // this two lines is for get GPU specificaiton 
     cudaDeviceProp prop;
     cudaGetDeviceProperties(&prop, 0);
+    //calculate blocks and threads according to length , size
+    //and specification of GPU
     long long unsigned tmp = (length + size - 1)/size ;
-
+    //if one block is enough
     if (tmp <= prop.maxThreadsDim[0]) {
         *threads = tmp;
         grid->blockx = 1;
         grid->blocky = 1;
         grid->blockz = 1;
     } else {
+	//if one block is not enough but 1 dimension grid is enough
         *threads = prop.maxThreadsDim[0];
         tmp =  (tmp + prop.maxThreadsDim[0] - 1)/prop.maxThreadsDim[0];
         if (tmp <= prop.maxGridSize[0]) {
@@ -86,6 +98,7 @@ void cal_grid(Grid *grid, int *threads, int length, int size) {
             grid->blocky = 1;
             grid->blockz = 1;
         } else {
+	    //if 1 dimension grid is not enough but 2 dimension grid is enough 
             tmp = (tmp + prop.maxGridSize[0] - 1)/prop.maxGridSize[0];
             if (tmp <= prop.maxGridSize[1]) {
                 grid->blockx =  prop.maxGridSize[0];

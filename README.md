@@ -3,7 +3,9 @@ Our final project for COMP-140/EE-194: an analysis of sorting algorithms in seri
 
 ##Summary:
 The recommended debugging command is:
-./a.out -n 10 -r 0 100 -s merge -p s
+
+`./a.out -n 10 -r 0 100 -s merge -p s`
+
 Which will sort 10 integers from 0 to 100. Replace 'merge' with your algorithm, and '-p s' with '-p p' if you want to test a parallel algorithm.
 
 ##Command Line Arguments:

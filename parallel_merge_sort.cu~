@@ -122,6 +122,8 @@ void parallelMergeSortFloat(Data *data) {
     }
  
     cudaMemcpy(data->floatarray, input, length, cudaMemcpyDeviceToHost);
+   
+    checkSortedness(data);
 
 }
 
@@ -155,6 +157,8 @@ void parallelMergeSortInt(Data *data) {
     }
  
     cudaMemcpy(data->intarray, input, length, cudaMemcpyDeviceToHost);
+   
+    checkSortedness(data);
 
 }
 

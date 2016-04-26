@@ -23,7 +23,7 @@ typedef struct Data_info {
 } Data_info;
 
 typedef struct Data {
-        unsigned int length;
+        unsigned long long length;
         int array_used;
         int *intarray;
         float *floatarray;

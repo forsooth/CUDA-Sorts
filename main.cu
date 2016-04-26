@@ -9,6 +9,7 @@
 #include "insertion.h"
 #include "quicksort.h"
 #include "merge_sort.h"
+#include "radix_sort.h"
 #include "parallel_merge_sort.h"
 #include "check_sorted.h"
 
@@ -29,9 +30,12 @@ int main (int argc, char *argv[])
         specs->sample_size = 10000;
         specs->max = 100000000;
         specs->min = -10;
+        specs->dist = UNIFORM;
+        specs->contents = INT;
+        specs->order = UNSORTED;
 
-        Sort algorithm;
-        Concurrency parallelism;
+        Sort algorithm = ALL;
+        Concurrency parallelism = BOTH;
 
         /* ===========================================
 
@@ -372,7 +376,12 @@ int main (int argc, char *argv[])
                 fprintf(stderr, "Bitonic sort not yet implemented\n");
                 break;
             case RADIX:
-                fprintf(stderr, "Radix sort not yet implemented\n");
+                fprintf(stderr, "Invoking algorithm: radix sort\n");
+                if (parallelism == PARALLEL) {
+                        fprintf(stderr, "Parallel radix sort not yet implemented\n");
+                } else {
+                        radix_sort(data);
+                }
                 break;
             case QUICK:
                 fprintf(stderr, "Invoking algorithm: quicksort\n");

@@ -1,17 +1,6 @@
 #include "parallel_merge_sort.h"
 
-void parallel_merge_sort(Data *data) {
-    if (data->array_used == INT) {
-        parallel_merge_sort_int(data);
-    } else {
-        parallel_merge_sort_float(data);
-    }
-}
-
-
-
-__global__ void merge_int(int *input, int *output, int length, int size) {
-
+__global__ void mergeInt(int *input, int *output, int length, int size) {
     int tid = (blockIdx.z * gridDim.x * gridDim.y
                 + blockIdx.y * gridDim.x
                 + blockIdx.x) * blockDim.x + threadIdx.x;
@@ -20,6 +9,7 @@ __global__ void merge_int(int *input, int *output, int length, int size) {
     int end1 = index2 > length ? length : index2;
     int end2 = index2 +  size/2 > length ? length : index2 + size/2;
     int tmpIndex = index1;
+  
 
     while (index1 < end1 && index2 < end2) {
         if (input[index1] <= input[index2]) {
@@ -28,18 +18,17 @@ __global__ void merge_int(int *input, int *output, int length, int size) {
             output[tmpIndex++] = input[index2++];
         }
     }
-
+    
     while (index1 < end1) {
         output[tmpIndex++] = input[index1++];
     }
     while (index2 < end2) {
         output[tmpIndex++] = input[index2++];
     }
-
+  
 }
 
-__global__ void merge_float(float *input, float *output, int length, int size) {
-
+__global__ void mergeFloat(float *input, float *output, int length, int size) {
     int tid = (blockIdx.z * gridDim.x * gridDim.y
                 + blockIdx.y * gridDim.x
                 + blockIdx.x) * blockDim.x + threadIdx.x;
@@ -49,7 +38,7 @@ __global__ void merge_float(float *input, float *output, int length, int size) {
     int end1 = index2 > length ? length : index2;
     int end2 = index2 +  size/2 > length ? length : index2 + size/2;
     int tmpIndex = index1;
-
+  
 
     while (index1 < end1 && index2 < end2) {
         if (input[index1] <= input[index2]) {
@@ -58,21 +47,21 @@ __global__ void merge_float(float *input, float *output, int length, int size) {
             output[tmpIndex++] = input[index2++];
         }
     }
-
+    
     while (index1 < end1) {
         output[tmpIndex++] = input[index1++];
     }
     while (index2 < end2) {
         output[tmpIndex++] = input[index2++];
     }
-
+  
 }
 
-void cal_grid(Grid *grid, int *threads, int length, int size) {
+void calGrid(Grid *grid, int *threads, int length, int size) {
     cudaDeviceProp prop;
     cudaGetDeviceProperties(&prop, 0);
     long long unsigned tmp = (length + size - 1)/size ;
-
+  
     if (tmp <= prop.maxThreadsDim[0]) {
         *threads = tmp;
         grid->blockx = 1;
@@ -102,12 +91,12 @@ void cal_grid(Grid *grid, int *threads, int length, int size) {
             }
 
         }
-
+        
     }
-
+   
 }
-void parallel_merge_sort_float(Data *data) {
-
+void parallelMergeSortFloat(Data *data) {
+ 
     int threads;
     Grid grid;
     int size = 2;
@@ -118,54 +107,67 @@ void parallel_merge_sort_float(Data *data) {
     cudaMalloc((void**)&output, length);
     cudaMemcpy(input, data->floatarray, length, cudaMemcpyHostToDevice);
 
-
+    
     while (size/2 < data->length) {
-
-	    cal_grid(&grid, &threads, data->length, size);
-
+	    calGrid(&grid, &threads, data->length, size);
+ 
         dim3 blocks(grid.blockx, grid.blocky, grid.blockz);
-        merge_float<<<blocks, threads>>>(input, output, data->length, size);
-
+        mergeFloat<<<blocks, threads>>>(input, output, data->length, size);
+  
         size = size * 2;
         tmp = input;
         input = output;
         output = tmp;
-
+       
     }
-
+ 
     cudaMemcpy(data->floatarray, input, length, cudaMemcpyDeviceToHost);
+   
+    checkSortedness(data);
 
 }
 
 
-void parallel_merge_sort_int(Data *data) {
 
+
+void parallelMergeSortInt(Data *data) {
+ 
     int threads;
     Grid grid;
     int size = 2;
-
+    
     int *input, *tmp, *output;
     int length = sizeof(int) * data->length;
     cudaMalloc((void**)&input, length);
     cudaMalloc((void**)&output, length);
     cudaMemcpy(input, data->intarray, length, cudaMemcpyHostToDevice);
-
-
+    
+    
     while (size/2 < data->length) {
-
-	cal_grid(&grid, &threads, data->length, size);
-
+	calGrid(&grid, &threads, data->length, size);
+ 
         dim3 blocks(grid.blockx, grid.blocky, grid.blockz);
-        merge_int<<<blocks, threads>>>(input, output, data->length, size);
-
+        mergeInt<<<blocks, threads>>>(input, output, data->length, size);
         size = size * 2;
-
+        
         tmp = input;
         input = output;
         output = tmp;
-
+       
     }
-
+ 
     cudaMemcpy(data->intarray, input, length, cudaMemcpyDeviceToHost);
+   
+    checkSortedness(data);
 
 }
+
+void parallelMergeSort(Data *data) {
+    if (data->array_used == INT)
+        parallelMergeSortInt(data);
+    else
+        parallelMergeSortFloat(data);
+}
+
+
+ 

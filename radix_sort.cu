@@ -5,11 +5,11 @@
 
 void radix_sort(Data *data) {
 
-    if (data->array_used == INT) {
-        radix_sort_int(data);
-    } else if (data->array_used == FLOAT) {
-        radix_sort_float(data);
-    }
+        if (data->array_used == INT) {
+                radix_sort_int(data);
+        } else if (data->array_used == FLOAT) {
+                radix_sort_float(data);
+        }
 
 };
 

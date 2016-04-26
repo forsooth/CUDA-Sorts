@@ -10,6 +10,7 @@
 #include "quicksort.h"
 #include "merge_sort.h"
 #include "radix_sort.h"
+#include "shellsort.h"
 #include "parallel_merge_sort.h"
 #include "check_sorted.h"
 
@@ -403,7 +404,12 @@ int main (int argc, char *argv[])
                 }
                 break;
             case SHELL:
-                fprintf(stderr, "Shellsort not yet implemented\n");
+                fprintf(stderr, "Invoking algorithm: Shellsort\n");
+                if (parallelism == PARALLEL) {
+                        fprintf(stderr, "Parallel Shellsort not yet implemented\n");
+                } else {
+                        shellsort(data);
+                }
                 break;
             case HEAP:
                 fprintf(stderr, "Heapsort not yet implemented\n");

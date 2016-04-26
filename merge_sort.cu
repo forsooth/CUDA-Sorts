@@ -1,24 +1,24 @@
 #include "merge_sort.h"
 
-void mergeSort(Data *data) {
+void merge_sort(Data *data) {
 
     if (data->array_used == INT) {
-        mergeSort_int(data->intarray, 0, data->length - 1);
+        merge_sort_int(data->intarray, 0, data->length - 1);
     } else if (data->array_used == FLOAT) {
-        mergeSort_float(data->floatarray, 0, data->length - 1);
+        merge_sort_float(data->floatarray, 0, data->length - 1);
     }
 
 };
 
-void mergeSort_int(int *arr, int leftIndex, int rightIndex) {
+void merge_sort_int(int *arr, int leftIndex, int rightIndex) {
 
     if (leftIndex >= rightIndex)
         return;
 
     int middle = (leftIndex + rightIndex) / 2;
     //divide
-    mergeSort_int(arr, leftIndex, middle);
-    mergeSort_int(arr, middle + 1, rightIndex);
+    merge_sort_int(arr, leftIndex, middle);
+    merge_sort_int(arr, middle + 1, rightIndex);
 
     //merge
     int length = (rightIndex - leftIndex + 1);
@@ -53,15 +53,15 @@ void mergeSort_int(int *arr, int leftIndex, int rightIndex) {
 
 }
 
-void mergeSort_float(float *arr, int leftIndex, int rightIndex) {
+void merge_sort_float(float *arr, int leftIndex, int rightIndex) {
 
     if (leftIndex >= rightIndex)
         return;
 
     int middle = (leftIndex + rightIndex) / 2;
     //divide
-    mergeSort_float(arr, leftIndex, middle);
-    mergeSort_float(arr, middle + 1, rightIndex);
+    merge_sort_float(arr, leftIndex, middle);
+    merge_sort_float(arr, middle + 1, rightIndex);
 
     //merge
     int length = (rightIndex - leftIndex + 1);

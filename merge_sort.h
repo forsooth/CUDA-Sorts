@@ -3,8 +3,8 @@
 
 #include "structs.h"
 
-void mergeSort_int(int *arr, int leftIndex, int rightIndex);
-void mergeSort_float(float *arr, int leftIndex, int rightIndex);
-void mergeSort(Data *data);
+void merge_sort_int(int *arr, int leftIndex, int rightIndex);
+void merge_sort_float(float *arr, int leftIndex, int rightIndex);
+void merge_sort(Data *data);
 
 #endif

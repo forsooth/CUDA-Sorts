@@ -1,16 +1,4 @@
-/*        OVERVIEW: QuickSort implementation, using CLRS psudo-code
- *        DATE: April 18
- *         Behnam Heydarshahi, Matt Asnes, Xu Liu
- *
- */
-
-#include "structs.h"
-
-void quicksort(Data *data, Data_info *data_info);
-void quicksort_int(int *a, int p, int r);
-void quicksort_float(float *a, int p, int r);
-int partition_int(int* a, int p, int r);
-int partition_float(float* a, int p, int r);
+#include "quicksort.h"
 
 /*
  *      To sort all array, call A, 1, length[A]

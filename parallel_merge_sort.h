@@ -4,11 +4,11 @@
 #include "structs.h"
 #include <stdio.h>
 
-__global__ void mergeInt(int *input, int *output, long unsigned int length, long unsigned int size);
-__global__ void mergeFloat(float *input, float *output, long unsigned int length, long unsigned int size);
-void parallelMergeSortInt(Data *data);
-void parallelMergeSortFloat(Data *data);
-void parallelMergeSort(Data *data);
+__global__ void merge_int(int *input, int *output, long unsigned int length, long unsigned int size);
+__global__ void merge_float(float *input, float *output, long unsigned int length, long unsigned int size);
+void parallel_merge_sort_int(Data *data);
+void parallel_merge_sort_float(Data *data);
+void parallel_merge_sort(Data *data);
 
 
 #endif

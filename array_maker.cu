@@ -106,15 +106,41 @@ int next_bucket (long long min, long long max)
         return val;
 }
 
-void print_array (Data *data, Data_info *specs) {
+void print_array (Data *data) {
         fprintf(stderr, "Printing array contents:\n");
-        if (specs->contents == INT) {
-                for (unsigned long long i = 0; i < specs->sample_size; i++) {
+        if (data->array_used == INT) {
+                for (unsigned long long i = 0; i < data->length; i++) {
                         fprintf(stdout, "%d\n", data->intarray[i]);
                 }
-        } else if (specs->contents == FLOAT) {
-                for (unsigned long long i = 0; i < specs->sample_size; i++) {
+        } else if (data->array_used == FLOAT) {
+                for (unsigned long long i = 0; i < data->length; i++) {
                         fprintf(stdout, "%lf\n", data->floatarray[i]);
                 }
         }
 }
+
+void prettyprint_array (Data *data) {
+        fprintf(stderr, "Printing array contents:\n");
+        if (data->array_used == INT) {
+                for (unsigned long long i = 0; i < data->length; i++) {
+
+                        if (i + 1 == data->length) {
+                                fprintf(stdout, "[%d]\n", data->intarray[i]);
+                                break;
+                        }
+
+                        fprintf(stdout, "[%d], ", data->intarray[i]);
+                }
+
+        } else if (data->array_used == FLOAT) {
+                for (unsigned long long i = 0; i < data->length; i++) {
+                        if (i + 1 == data->length) {
+                                fprintf(stdout, "[%lf]\n", data->floatarray[i]);
+                                break;
+                        }
+
+                        fprintf(stdout, "[%lf], ", data->floatarray[i]);
+                }
+        }
+}
+

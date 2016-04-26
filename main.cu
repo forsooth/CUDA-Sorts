@@ -7,6 +7,7 @@
 #include "structs.h"
 #include "array_maker.h"
 #include "insertion.h"
+#include "quicksort.h"
 #include "merge_sort.h"
 #include "parallel_merge_sort.h"
 #include "check_sorted.h"
@@ -360,40 +361,48 @@ int main (int argc, char *argv[])
         srand(time(NULL));
         Data *data = generate_data(specs);
         fprintf(stderr, "Generated data array.\n");
-        //print_array(data, specs);
+
+        prettyprint_array(data);
 
         switch (algorithm) {
             case ALL:
-                fprintf(stderr, "With all algorithms, to be done\n");
+                fprintf(stderr, "'All' sort not yet implemented\n");
                 break;
             case BITONIC:
-                fprintf(stderr, "With algorithm: bitonic sort to be done\n");
+                fprintf(stderr, "Bitonic sort not yet implemented\n");
                 break;
             case RADIX:
-                fprintf(stderr, "With algorithm: radix sort to be done\n");
+                fprintf(stderr, "Radix sort not yet implemented\n");
                 break;
             case QUICK:
-                fprintf(stderr, "With algorithm: quicksort to be done \n");
+                fprintf(stderr, "Invoking algorithm: quicksort\n");
+                if (parallelism == PARALLEL) {
+                        fprintf(stderr, "Parallel quicksort not yet implemented\n");
+                } else {
+                        quicksort(data);
+                }
                 break;
 
             case MERGE:
                 fprintf(stderr, "Invoking algorithm: merge sort\n");
                 if (parallelism == PARALLEL) {
-                        parallelMergeSort(data);
+                        parallel_merge_sort(data);
                 } else {
-                        mergeSort(data);
+                        merge_sort(data);
                 }
                 break;
             case SHELL:
-                fprintf(stderr, "With algorithm: shellsort to be done\n");
+                fprintf(stderr, "Shellsort not yet implemented\n");
                 break;
             case HEAP:
-                fprintf(stderr, "With algorithm: heap sort to be done\n");
+                fprintf(stderr, "Heapsort not yet implemented\n");
                 break;
             case INSERTION:
                 fprintf(stderr, "Invoking algorithm: insertion sort\n");
                 insertion(data);
         }
+
+        prettyprint_array(data);
 
         fprintf(stderr, "\nChecking sortedness...\n");
         check_sorted(data);

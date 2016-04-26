@@ -1,14 +1,14 @@
 #include "parallel_merge_sort.h"
 
-void parallelMergeSort(Data *data) {
+void parallel_merge_sort(Data *data) {
     if (data->array_used == INT) {
-        parallelMergeSortInt(data);
+        parallel_merge_sort_int(data);
     } else {
-        parallelMergeSortFloat(data);
+        parallel_merge_sort_float(data);
     }
 }
 
-__global__ void mergeInt(int *input, int *output, long unsigned int length, long unsigned int size) {
+__global__ void merge_int(int *input, int *output, long unsigned int length, long unsigned int size) {
     long unsigned int tid = blockIdx.x * blockDim.x + threadIdx.x;
     long unsigned int index1 = tid * size;
     long unsigned int index2 = index1 + size/2;
@@ -34,7 +34,7 @@ __global__ void mergeInt(int *input, int *output, long unsigned int length, long
 
 }
 
-__global__ void mergeFloat(float *input, float *output, long unsigned int length, long unsigned int size) {
+__global__ void merge_float(float *input, float *output, long unsigned int length, long unsigned int size) {
     long unsigned int tid = blockIdx.x * blockDim.x + threadIdx.x;
     long unsigned int index1 = tid * size;
     long unsigned int index2 = index1 + size/2;
@@ -61,7 +61,7 @@ __global__ void mergeFloat(float *input, float *output, long unsigned int length
 }
 
 
-void parallelMergeSortInt(Data *data) {
+void parallel_merge_sort_int(Data *data) {
     cudaDeviceProp prop;
     cudaGetDeviceProperties(&prop, 0);
     unsigned int threads;
@@ -87,7 +87,7 @@ void parallelMergeSortInt(Data *data) {
 
     while (size/2 < data->length) {
 
-        mergeInt<<<blocks, threads>>>(input, output, data->length, size);
+        merge_int<<<blocks, threads>>>(input, output, data->length, size);
         size = size * 2;
         if (size * prop.maxThreadsDim[0] < data->length) {
             threads = prop.maxThreadsDim[0];
@@ -110,7 +110,7 @@ void parallelMergeSortInt(Data *data) {
 
 }
 
-void parallelMergeSortFloat(Data *data) {
+void parallel_merge_sort_float(Data *data) {
     cudaDeviceProp prop;
     cudaGetDeviceProperties(&prop, 0);
     unsigned int threads;
@@ -137,7 +137,7 @@ void parallelMergeSortFloat(Data *data) {
 
         fprintf(stderr, "blocks %lu, threads %u, size %lu\n", blocks, threads, size);
 
-        mergeFloat<<<blocks, threads>>>(input, output, data->length, size);
+        merge_float<<<blocks, threads>>>(input, output, data->length, size);
 
         size = size * 2;
         if (size * prop.maxThreadsDim[0] < data->length) {

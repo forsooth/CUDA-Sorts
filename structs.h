@@ -11,7 +11,7 @@ typedef enum {UNIFORM, GAUSSIAN, CONSTANT, QUADRATIC, BUCKETS} Data_dist;
 typedef enum {UNSORTED, SORTED, REVERSED, NEARLYSORTED} Sortedness;
 typedef enum {INT, FLOAT} Data_type;
 
-/* Data specified in command line arguments pertaining to the 
+/* Data specified in command line arguments pertaining to the
  * data to generate */
 typedef struct Data_info {
         Data_dist dist;

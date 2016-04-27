@@ -127,6 +127,9 @@ void parallel_merge_sort_float(Data *data) {
     float *input, *tmp, *output;
     int length = sizeof(float) * data->length;
 
+    clock_t begin, end;
+    double time_spent;
+    begin = clock();    
     cudaMalloc((void**)&input, length);
     cudaMalloc((void**)&output, length);
     cudaMemcpy(input, data->floatarray, length, cudaMemcpyHostToDevice);
@@ -147,7 +150,10 @@ void parallel_merge_sort_float(Data *data) {
     }
 
     cudaMemcpy(data->floatarray, input, length, cudaMemcpyDeviceToHost);
+    end = clock();
+    time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
 
+    fprintf(stdout, "Parallel Merge sort time: %f\n", time_spent);
 }
 
 
@@ -157,8 +163,12 @@ void parallel_merge_sort_int(Data *data) {
     Grid grid;
     int size = 2;
 
+    clock_t begin, end;
+    double time_spent;
+        
     int *input, *tmp, *output;
     int length = sizeof(int) * data->length;
+    begin = clock();
     cudaMalloc((void**)&input, length);
     cudaMalloc((void**)&output, length);
     cudaMemcpy(input, data->intarray, length, cudaMemcpyHostToDevice);
@@ -180,5 +190,8 @@ void parallel_merge_sort_int(Data *data) {
     }
 
     cudaMemcpy(data->intarray, input, length, cudaMemcpyDeviceToHost);
+    end = clock();
+    time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
 
+    fprintf(stdout, "Parallel Merge sort time: %f\n", time_spent);
 }

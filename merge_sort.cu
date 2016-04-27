@@ -1,20 +1,27 @@
 #include "merge_sort.h"
 
 void merge_sort(Data *data) {
+    clock_t begin, end;
+    double time_spent;
 
     if (data->array_used == INT) {
+        begin = clock();       
         merge_sort_int(data->intarray, 0, data->length - 1);
-    } else if (data->array_used == FLOAT) {
-        merge_sort_float(data->floatarray, 0, data->length - 1);
-    }
+        end = clock();
 
+    } else if (data->array_used == FLOAT) {
+        begin = clock();
+        merge_sort_float(data->floatarray, 0, data->length - 1);
+        end = clock();
+ 
+    }
+        time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+        fprintf(stdout, "Serial Merge Sort time: %f\n", time_spent);
 };
 
 void merge_sort_int(int *arr, int leftIndex, int rightIndex) {
 
-        clock_t begin, end;
-        double time_spent;
-        begin = clock();
+ 
 
     if (leftIndex >= rightIndex)
         return;
@@ -52,9 +59,7 @@ void merge_sort_int(int *arr, int leftIndex, int rightIndex) {
         arr[lhalf++] = tmp[tmpIndex++];
     }
 
-            end = clock();
-        time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-        fprintf(stdout, "Serial Merge Sort time: %f\n", time_spent);
+
 
 
 

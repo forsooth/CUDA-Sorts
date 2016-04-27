@@ -3,7 +3,7 @@
 
 #include "structs.h"
 #include <time.h>
-#include <stdio>
+#include <stdio.h>
 
 void merge_sort_int(int *arr, int leftIndex, int rightIndex);
 void merge_sort_float(float *arr, int leftIndex, int rightIndex);

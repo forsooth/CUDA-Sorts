@@ -3,7 +3,7 @@
 
 #include "structs.h"
 #include <time.h>
-#include <stdio>
+#include <stdio.h>
 
 void insertion(Data *data);
 

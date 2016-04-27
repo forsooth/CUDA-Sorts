@@ -3,7 +3,7 @@
 
 #include "structs.h"
 #include <stdio.h>
-
+#include <time.h>
 
 __global__ void merge_int(int *input, int *output, int length, int size);
 __global__ void merge_float(float *input, float *output, int length, int size);

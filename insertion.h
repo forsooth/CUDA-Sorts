@@ -2,6 +2,8 @@
 #define INSERTION_H
 
 #include "structs.h"
+#include <time.h>
+#include <stdio>
 
 void insertion(Data *data);
 

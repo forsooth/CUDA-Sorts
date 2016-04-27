@@ -385,10 +385,11 @@ int main (int argc, char *argv[])
                         fprintf(stderr, "Invoking algorithm: parallel radix sort\n");
                         parallel_radix_sort(data);
                 } else if (parallelism == BOTH) {
-                        fprintf(stderr, "Invoking algorithm: parallel radix sort\n");
-                        parallel_radix_sort(data);
-                        fprintf(stderr, "Invoking algorithm: serial radix sort\n");
-                        radix_sort(data);
+                        shellsort(data);
+			merge_sort(data);
+			insertion(data);
+			radix_sort(data);
+			parallel_radix_sort(data);
                 } else {
                         fprintf(stderr, "Invoking algorithm: serial radix sort\n");
                         radix_sort(data);

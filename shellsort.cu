@@ -32,6 +32,9 @@ unsigned long long *generate_gaps(unsigned long long length) {
 
 
 void shellsort_int(Data *data) {
+	clock_t begin, end;
+        double time_spent;
+        begin = clock();
 
         int* a = data->intarray;
         unsigned long long length = data->length;
@@ -58,6 +61,11 @@ void shellsort_int(Data *data) {
         }
 
         free(gaps);
+
+	end = clock();
+        time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+        fprintf(stdout, "Serial Shellsort time: %f\n", time_spent);
+
 
 }
 

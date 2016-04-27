@@ -1,7 +1,9 @@
 #include "insertion.h"
 
 void insertion(Data *data) {
-
+        clock_t begin, end;
+        double time_spent;
+        begin = clock();
     if (data->array_used == INT) {
         for (int i = 1; i < data->length; i++) {
             for (int j = i; j > 0; j--) {
@@ -14,6 +16,11 @@ void insertion(Data *data) {
                 }
             }
         }
+
+        end = clock();
+        time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+        fprintf(stdout, "Serial Radix time: %f\n", time_spent);
+
 
     } else if (data->array_used == FLOAT) {
 

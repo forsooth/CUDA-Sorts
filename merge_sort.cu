@@ -12,6 +12,10 @@ void merge_sort(Data *data) {
 
 void merge_sort_int(int *arr, int leftIndex, int rightIndex) {
 
+        clock_t begin, end;
+        double time_spent;
+        begin = clock();
+
     if (leftIndex >= rightIndex)
         return;
 
@@ -48,7 +52,10 @@ void merge_sort_int(int *arr, int leftIndex, int rightIndex) {
         arr[lhalf++] = tmp[tmpIndex++];
     }
 
-    return;
+            end = clock();
+        time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+        fprintf(stdout, "Serial Merge Sort time: %f\n", time_spent);
+
 
 
 }

@@ -3,6 +3,8 @@
 
 #include "structs.h"
 #include <stdlib.h>
+#include <stdio.h>
+#include <time.h>
 
 void radix_sort(Data *data);
 long long *find_max_int (Data *data);

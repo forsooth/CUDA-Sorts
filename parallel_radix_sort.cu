@@ -39,7 +39,7 @@ void parallel_radix_sort_int(Data *data)
 
         time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
 
-        fprintf(stderr, "Parallel Radix time: %f\n", time_spent);
+        fprintf(stdout, "Parallel Radix time: %f\n", time_spent);
 
 }
 

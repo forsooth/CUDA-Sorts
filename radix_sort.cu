@@ -51,6 +51,10 @@ void radix_sort_int(Data *data) {
 
         int pos = 0;
 
+        clock_t begin, end;
+        double time_spent;
+        begin = clock();
+
         while (max >> (pos * BITS) > 0) {
                 int bucket[1 << BITS] = {0};
 
@@ -91,6 +95,12 @@ void radix_sort_int(Data *data) {
                         a[i] = b[i];
                 }
         }
+
+
+        end = clock();
+        time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+        fprintf(stdout, "Serial Radix time: %f\n", time_spent);
+
 
         free(b);
 

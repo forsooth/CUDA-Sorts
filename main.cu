@@ -11,6 +11,7 @@
 #include "merge_sort.h"
 #include "radix_sort.h"
 #include "shellsort.h"
+#include "parallel_radix_sort.h"
 #include "parallel_merge_sort.h"
 #include "check_sorted.h"
 
@@ -298,6 +299,7 @@ int main (int argc, char *argv[])
 
         }
 
+        #ifndef SILENT
         fprintf(stderr, "Parsed command-line arguments.\n\n");
 
         fprintf(stderr, "Will create & sort array with properties:\n");
@@ -362,27 +364,50 @@ int main (int argc, char *argv[])
                 fprintf(stderr, "Running in parallel\n\n");
         }
 
+        #endif
+
         srand(time(NULL));
         Data *data = generate_data(specs);
 
+
+        #ifndef SILENT
         fprintf(stderr, "Generated data array.\n");
 
         #ifdef PRINT
         prettyprint_array(data);
         #endif
 
+        #endif
+
         switch (algorithm) {
             case ALL:
-                fprintf(stderr, "'All' sort not yet implemented\n");
+                if (parallelism == PARALLEL) {
+                        fprintf(stderr, "Invoking algorithm: parallel radix sort\n");
+                        parallel_radix_sort(data);
+                } else if (parallelism == BOTH) {
+                        fprintf(stderr, "Invoking algorithm: parallel radix sort\n");
+                        parallel_radix_sort(data);
+                        fprintf(stderr, "Invoking algorithm: serial radix sort\n");
+                        radix_sort(data);
+                } else {
+                        fprintf(stderr, "Invoking algorithm: serial radix sort\n");
+                        radix_sort(data);
+                }
                 break;
             case BITONIC:
                 fprintf(stderr, "Bitonic sort not yet implemented\n");
                 break;
             case RADIX:
-                fprintf(stderr, "Invoking algorithm: radix sort\n");
                 if (parallelism == PARALLEL) {
-                        fprintf(stderr, "Parallel radix sort not yet implemented\n");
+                        fprintf(stderr, "Invoking algorithm: parallel radix sort\n");
+                        parallel_radix_sort(data);
+                } else if (parallelism == BOTH) {
+                        fprintf(stderr, "Invoking algorithm: parallel radix sort\n");
+                        parallel_radix_sort(data);
+                        fprintf(stderr, "Invoking algorithm: serial radix sort\n");
+                        radix_sort(data);
                 } else {
+                        fprintf(stderr, "Invoking algorithm: serial radix sort\n");
                         radix_sort(data);
                 }
                 break;
@@ -423,8 +448,15 @@ int main (int argc, char *argv[])
         prettyprint_array(data);
         #endif
 
+        #ifndef SILENT
         fprintf(stderr, "\nChecking sortedness...\n");
+        #endif
+
         check_sorted(data);
+
+        #ifndef SILENT
+        printf("Sorted.\n");
+        #endif
 
         if(data->intarray != NULL) {
                 free(data->intarray);

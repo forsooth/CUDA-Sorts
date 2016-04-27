@@ -1,15 +1,30 @@
 #include "quicksort.h"
+#include <stdio.h>
 
 /*
  *      To sort all array, call A, 1, length[A]
  */
 void quicksort(Data *data)
 {
+
+
+
         if (data->array_used == INT) {
-                quicksort_int(data->intarray, 0, data->length - 1);
+	        clock_t begin, end;
+	        double time_spent;
+	        begin = clock();
+
+                quicksort_int(data->intarray, 0, data->length);
+	        end = clock();
+	        time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+	        fprintf(stdout, "Serial Quicksort time: %f\n", time_spent);
         } else if (data->array_used == FLOAT) {
-                quicksort_float(data->floatarray, 0, data->length - 1);
+                quicksort_float(data->floatarray, 0, data->length);
         }
+
+
+
+
 }
 
 
@@ -28,6 +43,7 @@ int partition_int(int* a, int p, int r)
 	int i = p-1;
 	for(int j=p; j <r; j++) {
 	        if(a[j] <= x) {
+                        i++;
 	                int temp= a[i];
 			a[i]= a[j];
 			a[j]= temp;
@@ -55,6 +71,7 @@ int partition_float(float* a, int p, int r)
 	int i = p-1;
 	for(int j=p; j <r; j++) {
 	        if(a[j] <= x) {
+                        i++;
 	                float temp= a[i];
 			a[i]= a[j];
 			a[j]= temp;

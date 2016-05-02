@@ -85,7 +85,7 @@ printf("length  %d,  , blocks %d, threads %d max %d\n", data->length, grid.block
     cudaMemcpy(input, data->intarray, data->length * sizeof(int), cudaMemcpyHostToDevice);
     int comp[powerlength - data->length];
     initial<<<blocks, threads>>>(input, data->length, INT_MAX);
-    cudaMemcpy(comp, input + data->length, (powerlength -data->length) * sizeof(int), cudaMemcpyDeviceToHost);
+    cudaMemcpy(comp, input + 100, (powerlength -data->length) * sizeof(int), cudaMemcpyDeviceToHost);
 
 for (int i = 0; i < powerlength -data->length; i++) printf("first com %d\n", comp[i]);
 

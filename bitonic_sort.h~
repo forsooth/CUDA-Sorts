@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <time.h>
 #include "parallel_merge_sort.h"
-#include <climits>
+#include <climit>
  
 
 

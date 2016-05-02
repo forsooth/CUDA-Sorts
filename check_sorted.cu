@@ -23,4 +23,4 @@ void check_sorted(Data *data) {
     }
 
 
-};
+}

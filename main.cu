@@ -13,7 +13,10 @@
 #include "shellsort.h"
 #include "parallel_radix_sort.h"
 #include "parallel_merge_sort.h"
+#include "even_odd_sort.h"
+#include "bitonic_sort.h"
 #include "check_sorted.h"
+
 
 typedef long long Parses(const char *str, char **endptr, int base);
 typedef unsigned long long Parseu(const char *str, char **endptr, int base);
@@ -211,6 +214,9 @@ int main (int argc, char *argv[])
                         } else if (strcmp(sort_name, "bitonic") == 0 ||
                             strcmp(sort_name, "bitonic-sort") == 0) {
                                 algorithm = BITONIC;
+                        } else if (strcmp(sort_name, "even") == 0 ||
+                            strcmp(sort_name, "even-odd") == 0) {
+                                algorithm = EVENODD;
 
                         } else {
                                 fprintf(stderr, "No valid algorithm specified"
@@ -378,25 +384,22 @@ int main (int argc, char *argv[])
         #endif
 
         #endif
-
+ for (int i = 0; i < 20; i++) printf("%d\n", data->intarray[i]);
         switch (algorithm) {
             case ALL:
                 if (parallelism == PARALLEL) {
                         fprintf(stderr, "Invoking algorithm: parallel radix sort\n");
                         parallel_radix_sort(data);
                 } else if (parallelism == BOTH) {
-                        shellsort(data);
-			merge_sort(data);
-			insertion(data);
-			radix_sort(data);
-			parallel_radix_sort(data);
+                        
                 } else {
                         fprintf(stderr, "Invoking algorithm: serial radix sort\n");
                         radix_sort(data);
                 }
                 break;
             case BITONIC:
-                fprintf(stderr, "Bitonic sort not yet implemented\n");
+                fprintf(stderr, "Invoking algorithm: bitonic sort\n");
+                bitonic_sort(data);
                 break;
             case RADIX:
                 if (parallelism == PARALLEL) {
@@ -425,9 +428,14 @@ int main (int argc, char *argv[])
                 fprintf(stderr, "Invoking algorithm: merge sort\n");
                 if (parallelism == PARALLEL) {
                         parallel_merge_sort(data);
+                       
                 } else {
                         merge_sort(data);
                 }
+                break;
+            case EVENODD:
+                fprintf(stderr, "Invoking algorithm: even odd sort\n");
+                even_odd_sort(data);
                 break;
             case SHELL:
                 fprintf(stderr, "Invoking algorithm: Shellsort\n");

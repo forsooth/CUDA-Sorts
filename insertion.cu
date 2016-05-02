@@ -18,8 +18,7 @@ void insertion(Data *data) {
         }
 
         end = clock();
-        time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-        fprintf(stdout, "Serial Radix time: %f\n", time_spent);
+
 
 
     } else if (data->array_used == FLOAT) {
@@ -35,7 +34,10 @@ void insertion(Data *data) {
                 }
             }
         }
+        end = clock();
 
     }
-};
+    time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+    fprintf(stdout, "Serial Insetion time: %f\n", time_spent);
+}
 

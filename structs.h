@@ -1,8 +1,10 @@
 #ifndef STRUCTS
 #define STRUCTS
 
+  
 /* Used to determine which sort to use */
-typedef enum {ALL, BITONIC, RADIX, QUICK, MERGE, SHELL, HEAP, INSERTION} Sort;
+ 
+typedef enum {ALL, BITONIC, RADIX, QUICK, MERGE, SHELL, HEAP, INSERTION, EVENODD} Sort;
 /* Used to determine which version of the algorithms specified to use */
 typedef enum {BOTH, SERIAL, PARALLEL}  Concurrency;
 
@@ -34,5 +36,7 @@ typedef struct Grid {
     int blocky;
     int blockz;
 } Grid;
+
+
 
 #endif

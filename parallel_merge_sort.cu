@@ -69,21 +69,14 @@ __global__ void merge_float(float *input, float *output, int length, int size) {
 }
 
 
-//This function is for calculating how many threads and blocks
-//you would like to create.
-//length is the length of the whole array;
-//size is the amount of elements you want each thread to process
-//grid is to be calculated, it has 3 dimension, blockx, blocky
-//and blockz.
-//threads is how many threads for each block.
+ 
 void cal_grid(Grid *grid, int *threads, int length, int size) {
-    // this two lines is for get GPU specificaiton 
+ 
     cudaDeviceProp prop;
     cudaGetDeviceProperties(&prop, 0);
-    //calculate blocks and threads according to length , size
-    //and specification of GPU
+ 
     long long unsigned tmp = (length + size - 1)/size ;
-    //if one block is enough
+ 
     if (tmp <= prop.maxThreadsDim[0]) {
         *threads = tmp;
         grid->blockx = 1;
@@ -176,7 +169,7 @@ void parallel_merge_sort_int(Data *data) {
 
     while (size/2 < data->length) {
 
-	cal_grid(&grid, &threads, data->length, size);
+	    cal_grid(&grid, &threads, data->length, size);
 
         dim3 blocks(grid.blockx, grid.blocky, grid.blockz);
         merge_int<<<blocks, threads>>>(input, output, data->length, size);

@@ -305,13 +305,13 @@ int main (int argc, char *argv[])
 
         }
 
-        #ifndef SILENT
-        fprintf(stderr, "Parsed command-line arguments.\n\n");
+    //    #ifndef SILENT
+       // fprintf(stderr, "Parsed command-line arguments.\n\n");
 
-        fprintf(stderr, "Will create & sort array with properties:\n");
+       // fprintf(stderr, "Will create & sort array with properties:\n");
 
-        fprintf(stderr, "Length: %llu\n", specs->sample_size);
-
+       // fprintf(stderr, "Length: %llu\n", specs->sample_size);
+/*
         if (specs->dist == UNIFORM) {
                 fprintf(stderr, "Distribution: uniform\n");
         } else if (specs->dist == GAUSSIAN) {
@@ -371,20 +371,20 @@ int main (int argc, char *argv[])
         }
 
         #endif
-
+*/
         srand(time(NULL));
         Data *data = generate_data(specs);
 
 
         #ifndef SILENT
-        fprintf(stderr, "Generated data array.\n");
+   //     fprintf(stderr, "Generated data array.\n");
 
         #ifdef PRINT
-        prettyprint_array(data);
+ //       prettyprint_array(data);
         #endif
 
         #endif
- 
+// for (int i = 0; i < data->length; i++) printf("from main %d\n", data->intarray[i]);
  fprintf(stdout, "Length: %llu\n", specs->sample_size);
         switch (algorithm) {
             case ALL:
@@ -399,7 +399,7 @@ int main (int argc, char *argv[])
                 }
                 break;
             case BITONIC:
-                fprintf(stderr, "Invoking algorithm: bitonic sort\n");
+                //fprintf(stderr, "Invoking algorithm: bitonic sort\n");
                 bitonic_sort(data);
                 break;
             case RADIX:
@@ -459,7 +459,7 @@ int main (int argc, char *argv[])
         #endif
 
         #ifndef SILENT
-        fprintf(stderr, "\nChecking sortedness...\n");
+     //   fprintf(stderr, "\nChecking sortedness...\n");
         #endif
 
         check_sorted(data);

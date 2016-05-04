@@ -1,4 +1,4 @@
-#include<quicksort_parallel.h>
+#include"quicksort_parallel.h"
 #include<stdio.h>
 
 #define MAX_DEPTH       16

@@ -1,6 +1,6 @@
 #include"quicksort_parallel.h"
 #include<stdio.h>
-
+#include"helper_cuda.h"
 #define MAX_DEPTH       16
 #define INSERTION_SORT  32
 
@@ -139,9 +139,5 @@ void quicksort_parallel(Data* data) {
 
     // Launch on device
 
-    
-
-
-	return 0;
 }
 

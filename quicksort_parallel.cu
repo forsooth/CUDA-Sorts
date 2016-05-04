@@ -127,7 +127,6 @@ void quicksort_parallel(Data* data) {
 	      // begin = clock();
 
     		//int left = 0;
-		//int right = data->length-1;
 		//printf("Launching kernel on the GPU");
 		//quicksort_parallel_float<<< 1, 1 >>>(data->floatarray, left, right, 0);
 		//checkCudaErrors(cudaDeviceSynchronize());
@@ -136,12 +135,5 @@ void quicksort_parallel(Data* data) {
 	        //fprintf(stdout, "Parallel Quicksort time: %f\n", time_spent);
         }
 
-
-    // Launch on device
-
-    
-
-
-	return 0;
 }
 
